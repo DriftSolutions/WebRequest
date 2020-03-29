@@ -1,0 +1,18 @@
+.table>tbody>tr>th, .table>thead>tr>th{
+	background-color: #375a7f;
+	vertical-align:bottom; 
+	border-bottom:2px solid #464545;
+}
+
+.djsrow > div {
+    margin-top:10px;
+    padding: 20px;
+    outline: 2px solid #aaa;
+    outline-offset: -10px;
+    -moz-outline-radius: 10px;
+    -webkit-outline-radius: 10px;
+ }
+ 
+.narrow { width: 1px; white-space: nowrap; }
+.nobr { white-space: nowrap; }
+

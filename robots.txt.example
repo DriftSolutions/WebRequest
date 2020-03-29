@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /request.php
+Disallow: /songinfo.php
+Disallow: /rate.php
+Disallow: /request.php*
+Disallow: /songinfo.php*
+Disallow: /rate.php*

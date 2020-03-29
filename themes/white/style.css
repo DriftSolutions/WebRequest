@@ -1,0 +1,24 @@
+
+form { padding: 0px; }
+
+/* .songtable { } */
+.songtable { border: #000000 solid 1px; background-color:#000000; border-collapse: collapse; }
+
+.songheader { padding: 3px; background: black; color: white; font-size: 16px; text-decoration: bold; }
+.songheaderlink { color: white; font-size: 16px; text-decoration: none; }
+.songheaderlink:hover { color: white; font-size: 16px; text-decoration: underline; }
+.narrow { width: 1px; white-space: nowrap; }
+.nobr { white-space: nowrap; }
+
+.songmain { padding: 3px; background: #CCCCCC; color: black; font-size: 14px; text-decoration: none; vertical-align: middle; }
+.songalt { padding: 3px; background: #999999; color: black; font-size: 14px; text-decoration: none; vertical-align: middle; }
+/* border-right: 1px solid black; border-left: 1px solid black; */
+
+.songmainvert { padding: 3px; background: #CCCCCC; color: black; font-size: 14px; text-decoration: none; vertical-align: top; }
+.songaltvert { padding: 3px; background: #999999; color: black; font-size: 14px; text-decoration: none; vertical-align: top; border-right: 1px; }
+
+a { color: #505050; font-size: 14px; text-decoration: none; }
+a:hover { color: #808080; font-size: 14px; text-decoration: underline; }
+td a { color: #000000; font-size: 14px; text-decoration: none; }
+td a:hover { color: #000000; font-size: 14px; text-decoration: underline; }
+

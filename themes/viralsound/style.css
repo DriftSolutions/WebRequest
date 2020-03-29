@@ -1,0 +1,31 @@
+
+body {
+	background: #222222;
+	color: white;
+}
+
+form { padding: 0px; }
+
+/*td { padding:1px; }*/
+
+.songtable { border: #415481 solid 1px; background-color:#526592; border-spacing: 1px; }
+.songtableborder { border: #415481 solid 1px; background-color:#526592; border-spacing: 1px; }
+.narrow { width: 1px; white-space: nowrap; }
+.nobr { white-space: nowrap; }
+
+.songheader { padding: 3px; background: #526592; color: white; font-size: 16px; text-decoration: bold; }
+.songheaderlink { color: white; font-size: 16px; text-decoration: none; }
+.songheaderlink:hover { color: white; font-size: 16px; text-decoration: underline; }
+
+.songmain { padding: 3px; background: #222222; color: white; font-size: 14px; text-decoration: none; vertical-align: middle; }
+.songalt { padding: 3px; background: #333333; color: white; font-size: 14px; text-decoration: none; vertical-align: middle; }
+
+.songmainvert { padding: 3px; background: #222222; color: white; font-size: 14px; text-decoration: none; vertical-align: top; }
+.songaltvert { padding: 3px; background: #333333; color: white; font-size: 14px; text-decoration: none; vertical-align: top; }
+
+
+a { color: #EEEEEE; font-size: 14px; text-decoration: none; }
+a:hover { color: #EEEEEE; font-size: 14px; text-decoration: underline; }
+td a { color: #EEEEEE; font-size: 14px; text-decoration: none; }
+td a:hover { color: #FFFFFF; font-size: 14px; text-decoration: underline; }
+
