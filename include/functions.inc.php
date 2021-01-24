@@ -1,7 +1,7 @@
 <?php
 if (!defined('FUNCTIONS_INC_PHP')) {
 	define('FUNCTIONS_INC_PHP','INCLUDED');
-	define('_WEBREQUEST_VERSION','2.0.18');
+	define('_WEBREQUEST_VERSION','2.0.19');
 	define('REQ_TABLE', $config['db_tabprefix']."Requests");
 	define('USERS_TABLE', $config['db_tabprefix']."Users");
 	define('CONFIG_TABLE', $config['db_tabprefix']."Config");
