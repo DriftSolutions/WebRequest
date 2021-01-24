@@ -17,7 +17,7 @@
 {foreach from=$djs item=dj}
 	<div class="col-xs-12 col-sm-6 col-md-4 equalize">
 			<div class="text-center">
-				{if $dj.Picture}<img src="{$dj.PictureURL}" border=0><br />{/if}
+				{if $dj.Picture}<img src="{$dj.PictureURL}" border=0 class="img-responsive"><br />{/if}
 				<a href="dj.php?dj={$dj.ID}">DJ {$dj.DispName}</a>{if $dj.IsCurDJ} {onairimg}{/if}
 			</div>
 			{if $dj.ProfileShort}<br />{$dj.ProfileShort}{/if}

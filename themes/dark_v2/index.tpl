@@ -22,7 +22,7 @@
 {foreach from=$requests item=song}
 	<tr>
 		<td>{songinfolink id=$song.ID} {songdisp song=$song}</td>
-		{if $config.enable_ratings}<td>{rating song=$song}</td>{/if}
+		{if $config.enable_ratings}<td class="text-nowrap">{rating song=$song}</td>{/if}
 		<td>{$song.Album}</td>
 		<td class="text-right">{timedisp len=$song.SongLen}</td>
 	</tr>
@@ -34,7 +34,7 @@
 {foreach from=$lastplayed item=song}
 	<tr>
 		<td>{songinfolink id=$song.ID} {songdisp song=$song}</td>
-		{if $config.enable_ratings}<td>{rating song=$song}</td>{/if}
+		{if $config.enable_ratings}<td class="text-nowrap">{rating song=$song}</td>{/if}
 		<td>{$song.Album}</td>
 		<td class="text-right">{timedisp len=$song.SongLen}</td>
 	</tr>

@@ -119,22 +119,22 @@
 	header("Last-Modified: $now");
 	header("Content-Type: text/html; charset=UTF-8");
 	
-	$smarty = new Smarty;
-	$smarty->template_dir = $config['base_path']."themes/".$config['theme'];
-  $smarty->compile_dir = $config['base_path']."templates_c";
-  $smarty->config_dir = $config['base_path']."configs";
-  $smarty->cache_dir = $config['base_path']."cache"; 
+	$smarty = new Smarty();
+	$smarty->setTemplateDir($config['base_path']."themes/".$config['theme']);
+	$smarty->setCompileDir($config['base_path']."templates_c");
+	$smarty->setConfigDir($config['base_path']."configs");
+	$smarty->setCacheDir($config['base_path']."cache");
 
  	$smarty->assign("webreq_version", _WEBREQUEST_VERSION);
  	
-	$smarty->register_function('songdisp', 'songdisp');
-	$smarty->register_function('timedisp', 'timedisp');
-	$smarty->register_function('songinfolink', 'songinfolink');
-	$smarty->register_function('requestlink', 'requestlink');
-	$smarty->register_function('str_repeat', 'sm_str_repeat');
-	$smarty->register_function('rating', 'rating');	
-	$smarty->register_function('onairimg', 'onairimg');	
-	$smarty->register_function('getimage', 'getimage');	
+	$smarty->registerPlugin('function', 'songdisp', 'songdisp');
+	$smarty->registerPlugin('function', 'timedisp', 'timedisp');
+	$smarty->registerPlugin('function', 'songinfolink', 'songinfolink');
+	$smarty->registerPlugin('function', 'requestlink', 'requestlink');
+	$smarty->registerPlugin('function', 'str_repeat', 'sm_str_repeat');
+	$smarty->registerPlugin('function', 'rating', 'rating');
+	$smarty->registerPlugin('function', 'onairimg', 'onairimg');
+	$smarty->registerPlugin('function', 'getimage', 'getimage');
 
 	if (!defined('ADMIN_CORE')) {
 		$res = $db->query("SHOW TABLES LIKE '".$db->escape($config['CurDJ'])."'");

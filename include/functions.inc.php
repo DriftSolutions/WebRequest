@@ -7,8 +7,9 @@ if (!defined('FUNCTIONS_INC_PHP')) {
 	define('CONFIG_TABLE', $config['db_tabprefix']."Config");
 	define('DNSBL_TABLE', $config['db_tabprefix']."DNSBL");
 	define('DJ_TABLE', $config['db_tabprefix']."DJ");
+	define('SMARTY_DIR', $config['base_path'].'include/smarty3/');
 	
-	require('smarty/Smarty.class.php');
+	require('smarty3/Smarty.class.php');
 	
 	function LoadDynamicConfig($uid=0) {
 		global $db,$config;
@@ -148,7 +149,7 @@ if (!defined('FUNCTIONS_INC_PHP')) {
 	}
 
 	// functions for Smarty
-	function songdisp($params, &$smarty)
+	function songdisp($params, $smarty)
 	{
 		if (strlen($params['song']['Artist']) && strlen($params['song']['Title'])) {
 			return $params['song']['Artist']." - ".$params['song']['Title'];
@@ -157,7 +158,7 @@ if (!defined('FUNCTIONS_INC_PHP')) {
 		}
 	}
 	
-	function timedisp($params, &$smarty)
+	function timedisp($params, $smarty)
 	{
 		return duration($params['len']);
 	}
@@ -165,7 +166,7 @@ if (!defined('FUNCTIONS_INC_PHP')) {
 	$SIL_didcheck = false;
 	$SIL_useThemeImage = false;
 
-	function songinfolink($params, &$smarty)
+	function songinfolink($params, $smarty)
 	{		
 		global $config, $SIL_didcheck, $SIL_useThemeImage;
 		if (!$SIL_didcheck) {
@@ -186,7 +187,7 @@ if (!defined('FUNCTIONS_INC_PHP')) {
 	$RL_didcheck = false;
 	$RL_useThemeImage = false;
 
-	function requestlink($params, &$smarty)
+	function requestlink($params, $smarty)
 	{
 		global $config, $RL_didcheck, $RL_useThemeImage;
 		//$ret = "<a href=\"#\" onClick=\"javascript:window.open('request.php?id=".$params['id']."','wndrequest','scrollbars=yes,status=no,menubar=no,location=no,resizeable=yes,height=200,width=400'); return false;\"><img src=\"";
@@ -210,7 +211,7 @@ if (!defined('FUNCTIONS_INC_PHP')) {
 	$RD_useThemeImage = false;
 	$RR_useThemeImage = false;
 	
-	function rating($params, &$smarty)
+	function rating($params, $smarty)
 	{
 		global $config, $R_didcheck, $RS_useThemeImage, $RD_useThemeImage, $RR_useThemeImage;
 		if (!$R_didcheck) {
@@ -263,7 +264,7 @@ if (!defined('FUNCTIONS_INC_PHP')) {
 	$ONAIR_didcheck = false;
 	$ONAIR_useThemeImage = false;
 
-	function onairimg($params, &$smarty)
+	function onairimg($params, $smarty)
 	{		
 		global $config, $ONAIR_didcheck, $ONAIR_useThemeImage;
 		if (!$ONAIR_didcheck) {
@@ -282,7 +283,7 @@ if (!defined('FUNCTIONS_INC_PHP')) {
 	}	
 	
 	$getimagecache = array();
-	function getimage($params, &$smarty)
+	function getimage($params, $smarty)
 	{		
 		global $config,$getimagecache;		
 		if (!isset($params['fn']) || empty($params['fn']) || strstr($params['fn'], '..') !== FALSE || strstr($params['fn'], '/') !== FALSE || strstr($params['fn'], '\\') !== FALSE) {
@@ -298,7 +299,7 @@ if (!defined('FUNCTIONS_INC_PHP')) {
 		return $getimagecache[$params['fn']];
 	}
 		
-	function sm_str_repeat($params, &$smarty) {
+	function sm_str_repeat($params, $smarty) {
 		return str_repeat($params['text'],$params['count']);
 	}
 	
