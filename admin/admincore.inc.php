@@ -9,7 +9,7 @@ if (!defined('ADMIN_CORE')) {
 
 	if ($_GET['logout'] == 1) {
 		$_SESSION['force_login'] = true;
-		die("You are now logged out of the system, to log back in click <a href=\"index.php\">here</a>.");
+		die("You are now logged out of the system, to log back in click <a href=\"index.php\">here</a>. To return to the main page, click <a href=\"../index.php\">here</a>");
 	}
 	
 	function force_login() {
