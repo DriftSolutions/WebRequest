@@ -1,12 +1,16 @@
 <?php
 if (!defined('DATABASE_INC_PHP')) {
-  define('DATABASE_INC_PHP','INCLUDED'); 
+  define('DATABASE_INC_PHP','INCLUDED');
 
   if (!function_exists('mysqli_connect_error')) {
   	die("ERROR: Need mysqli extension installed!");
   }
- 	
-  class WebRequest_DB {  	
+
+	if (version_compare(PHP_VERSION, '8.1.0') >= 0) {
+		mysqli_report(MYSQLI_REPORT_OFF);
+	}
+
+  class WebRequest_DB {
 			var $link = FALSE;
 			var $queries = 0;
 
@@ -48,13 +52,13 @@ if (!defined('DATABASE_INC_PHP')) {
   			mysqli_set_charset($this->link, 'utf8');
   			return true;
   		}
-  			  		
+
   		function close() {
   			mysqli_close($this->link);
   			$this->link = FALSE;
   			return true;
   		}
-  		
+
   		function query($query) {
   			global $config;
   			$this->queries++;
@@ -68,7 +72,7 @@ if (!defined('DATABASE_INC_PHP')) {
   			}
   			return $ret;
   		}
-  		
+
   		function insert($table, $arr) {
 				$query = "INSERT INTO `".$table."` (".
 				$values = "";
@@ -78,7 +82,7 @@ if (!defined('DATABASE_INC_PHP')) {
 				}
 				$query = substr($query,0,strlen($query)-1);
 				$values = substr($values,0,strlen($values)-1);
-				$query .= ") VALUES (".$values.")";  			
+				$query .= ") VALUES (".$values.")";
 				return $this->query($query);
   		}
 
@@ -93,30 +97,30 @@ if (!defined('DATABASE_INC_PHP')) {
 				$query .= " Where `ID`='".$this->escape($arr['ID'])."'";
 				return $this->query($query);
   		}
-  		 
+
   		function escape($val) {
   			if ($this->link !== FALSE) {
   				return mysqli_real_escape_string($this->link, $val);
   			}
   			return addslashes($val);
   		}
-  		
+
   		function num_rows($res) {
   			return mysqli_num_rows($res);
   		}
-  		
+
   		function fetch_assoc($res) { // you should use this over fetch_array in your code, mysqli_fetch_assoc() is much faster
   			return mysqli_fetch_assoc($res);
   		}
-  		
+
   		function fetch_array($res) {
   			return mysqli_fetch_array($res);
   		}
-  		
+
   		function field_type($res, $ind) {
   			return mysqli_field_type($res, $ind);
   		}
-  		
+
   		function insert_id() {
   			return mysqli_insert_id($this->link);
   		}
@@ -128,12 +132,12 @@ if (!defined('DATABASE_INC_PHP')) {
   		}
   		function free_result($res) {
 				return mysqli_free_result($res);
-  		}  		
+  		}
 
   		function GetQueriesCount() {
   			return $this->queries;
   		}
-  		
+
   		function GetDBType() { return "mysqli"; }
 
   		function GetModuleInfo() {

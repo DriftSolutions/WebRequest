@@ -1,12 +1,15 @@
 <?php
 	error_reporting(E_ALL & ~E_NOTICE);
+	if (version_compare(PHP_VERSION, '8.1.0') >= 0) {
+		mysqli_report(MYSQLI_REPORT_OFF);
+	}
 	session_start();
 	print "<html>\n";
 	print "<head>\n";
 	print "\t<title>Web Request Installer</title>\n";
 	print "</head>\n";
 	print "<body bgcolor=\"#333333\" text=\"#FFFFFF\" link=\"#2285ab\" alink=\"#3399FF\" vlink=\"#2285ab\">\n";
-	
+
 	function install_line_ok($desc,$status) {
 		print "<tr><td>&nbsp;".$desc."&nbsp;</td><td><font color=\"#009000\">&nbsp;".$status."&nbsp;</font></td></tr>\n";
 	}
@@ -28,13 +31,13 @@
 	function iif($blah,$ret1,$ret2="") {
 		if ($blah) { return $ret1; }
 		return $ret2;
-	}	
-	function wipe_session() {	
+	}
+	function wipe_session() {
 		if (isset($_COOKIE[session_name()])) {
 		    setcookie(session_name(), '', time()-86400, '/');
-		}		
+		}
 		session_destroy();
-	}	
+	}
 	function install_dir_check($dir,$writable) {
 		if (is_dir("./".$dir)) {
 			install_line_ok("Does ".$dir." exist?", "OK");
@@ -75,7 +78,7 @@
 		foreach ($themes as $t) {
 			$ffn = "./themes/".$t."/images/".$file;
 			if (is_file($ffn) && hash_file("sha256", $ffn) == $hash) {
-				if (@unlink($ffn) == TRUE || (@chmod($ffn, 0777) == TRUE && @unlink($ffn) == TRUE)) {					
+				if (@unlink($ffn) == TRUE || (@chmod($ffn, 0777) == TRUE && @unlink($ffn) == TRUE)) {
 					install_line_ok("Old template image '".substr($ffn,2)."' detected.", "Deleted");
 				} else {
 					install_line_warn("Old template image '".substr($ffn,2)."' detected.", "Could not delete");
@@ -83,7 +86,7 @@
 			}
 		}
 		return true;
-	}	
+	}
 	function is_vector(&$array) {
 	  $next = 0;
 	  foreach ($array as $k => $v) {
@@ -137,10 +140,10 @@
 			return true;
 		}
 	}
-	
+
 	$step = isset($_REQUEST['step']) ? $_REQUEST['step'] : 1;
 	$link = null;
-	
+
 	switch ($step) {
 		default:
 		case "1":
@@ -155,7 +158,7 @@
 					install_line_err("Is MySQLi extension loaded?", "PHP MySQLi extension missing!");
 					break;
 				}
-				
+
 				if (is_file("./config.inc.php")) {
 					install_line_ok("Does config.inc.php exist?", "OK");
 					if (is_file("./config.inc.php")) {
@@ -169,7 +172,7 @@
 							}
 							install_line_ok("Imported existing configuration values...", "OK");
 						}
-					}					
+					}
 				} else {
 					if (@touch("./config.inc.php")) {
 						install_line_ok("Does config.inc.php exist?", "Created");
@@ -203,15 +206,15 @@
 			print "</table><br />\n";
 			print "Continue to the <a href=\"install.php?step=2\">next step</a>.";
 			break;
-			
+
 		case "2":
 			print "Step 2 - Collecting information<br />\n";
 			print "Tell me a little about your setup...<br /><br />\n";
 			print "<form action=\"install.php\" method=\"post\"><input type=\"hidden\" name=\"step\" value=\"3\">";
 			print "<table bgcolor=\"#444444\" border=1>\n";
-			
+
 			//set some defaults if needed
-			
+
 			if (!$_SESSION['base_path']) { $_SESSION['base_path'] = dirname($_SERVER["SCRIPT_FILENAME"])."/";	}
 			if (!$_SESSION['base_url']) { $_SESSION['base_url'] = "http://".iif($_SERVER["SERVER_NAME"],$_SERVER["SERVER_NAME"],$_SERVER["SERVER_ADDR"]).dirname($_SERVER["PHP_SELF"])."/";	}
 			if (!$_SESSION['db_host']) { $_SESSION['db_host'] = "localhost"; }
@@ -235,12 +238,12 @@
 			if (!isset($_SESSION['djs_per_page'])) { $_SESSION['djs_per_page'] = 4;	}
 			if (!isset($_SESSION['allow_musicup'])) { $_SESSION['allow_musicup'] = 0;	}
 			if (!isset($_SESSION['theme'])) { $_SESSION['theme'] = 'dark_v2';	}
-									
+
 			print "<tr><td colspan=2 align=\"center\">Script Information</td></tr>\n";
 			install_line_question("What is your administrative email?<br />(Error notices, etc., will be sent to it)", "<input name=\"admin_email\" size=70 value=\"".$_SESSION['admin_email']."\">");
 			install_line_question("What folder is this script installed in?<br />(Make sure you keep the ending slash)", "<input name=\"base_path\" size=70 value=\"".$_SESSION['base_path']."\">");
 			install_line_question("What is the URL to the folder this script is installed in?<br />(Make sure you keep the ending slash)", "<input name=\"base_url\" size=70 value=\"".$_SESSION['base_url']."\">");
-			
+
 			print "<tr><td colspan=2 align=\"center\">Database Information</td></tr>\n";
 			install_line_question("What is the hostname of your MySQL server?", "<input name=\"db_host\" size=25 value=\"".$_SESSION['db_host']."\">");
 			install_line_question("What is the port of your MySQL server?", "<input name=\"db_port\" size=6 value=\"".$_SESSION['db_port']."\">");
@@ -333,7 +336,7 @@
 			}
 			$code .= "</select>";
 			install_line_question("Allow users to rate songs from within the playlist?", $code);
-			
+
 			$code = "<select name=\"allow_dedication\">";
 			if ($_SESSION['allow_dedication']) {
 				$code .= "<option value=0>NO</option>";
@@ -355,7 +358,7 @@
 			}
 			$code .= "</select>";
 			install_line_question("Do you want to check IPs against DNS blacklists?<br />This will help prevent people using proxies, etc., from sending in requests.", $code);
-			
+
 			$code = "<select name=\"allow_musicup\">";
 			if ($_SESSION['allow_musicup']) {
 				$code .= "<option value=0>NO</option>";
@@ -366,31 +369,31 @@
 			}
 			$code .= "</select>";
 			install_line_question("Allow DJs to upload music via the admin panel? (requires +g user flag)", $code);
-			
+
 			print "<tr><td colspan=2 align=\"center\">Submit Information</td></tr>\n";
 			install_line_question("", "<input type=\"submit\" value=\"Continue to the next step...\">");
-			
+
 			print "</table>\n";
 			//print "Continue to the <a href=\"install.php?step=3\">next step</a>.";
 			break;
-	
+
 		case "3":
 			print "Step 3 - Confirm your information<br />\n";
 			print "Make sure this all looks OK to you, if any of it is incorrect, please press Back in your browser and correct it.<br /><br />\n";
 			print "<form action=\"install.php\" method=\"post\"><input type=\"hidden\" name=\"step\" value=\"4\">";
 			print "<table bgcolor=\"#444444\" border=1>\n";
-			
+
 			foreach ($_POST as $key => $val) {
 				if ($key != "step") {
 					$_SESSION[$key] = $val;
 				}
 			}
-			
+
 			print "<tr><td colspan=2 align=\"center\">Script Information</td></tr>\n";
 			install_line_question("What is your administrative email?", $_SESSION['admin_email']);
 			install_line_question("What folder is this script installed in?<br />(Make sure you keep the ending slash)", $_SESSION['base_path']);
 			install_line_question("What is the URL to the folder this script is installed in?<br />(Make sure you keep the ending slash)", $_SESSION['base_url']);
-			
+
 			print "<tr><td colspan=2 align=\"center\">Database Information</td></tr>\n";
 			install_line_question("What is the hostname of your MySQL server?", $_SESSION['db_host']);
 			install_line_question("What is the port of your MySQL server?", $_SESSION['db_port']);
@@ -418,14 +421,14 @@
 			install_line_question("Allow users to enter dedication text (live DJs only)?", iif($_SESSION['allow_dedication'],"YES","NO"));
 			install_line_question("Do you want to check IPs against DNS blacklists?<br />This will help prevent people using proxies, etc., from sending in requests.", iif($_SESSION['dnsbl_enable'],"YES","NO"));
 			install_line_question("Allow DJs to upload music via the admin panel? (requires +g user flag)", iif($_SESSION['allow_musicup'],"YES","NO"));
-			
+
 			print "<tr><td colspan=2 align=\"center\">Confirm Information</td></tr>\n";
 			install_line_question("", "<input type=\"submit\" value=\"All information looks correct, continue to the next step...\">");
-			
+
 			print "</table>\n";
 			//print "Continue to the <a href=\"install.php?step=3\">next step</a>.";
 			break;
-					
+
 		case "4":
 			print "Step 4 - Final testing and set up...<br /><br />\n";
 			print "Attempting to connect to MySQL: ";
@@ -437,7 +440,7 @@
  			} else {
  				print "OK<br />";
  			}
- 			
+
  			print "Attempting to set database '".$_SESSION['db_database']."' active: ";
  			if (!@mysqli_select_db($link, $_SESSION['db_database'])) {
  				print "ERROR! Number: ".mysqli_errno($link)." -> ".mysqli_error($link)."<br />";
@@ -454,7 +457,7 @@
  			} else {
  				print "OK<br />";
  			}
- 			
+
  			$table = $_SESSION['db_tabprefix']."Requests";
  			if (!CheckDBTable($table, "CREATE TABLE IF NOT EXISTS `".$table."` (`ID` int(11) NOT NULL auto_increment, `IP` varchar(255) NOT NULL default '', `Expire` int(11) NOT NULL default '0', PRIMARY KEY  (`ID`));")) { break; }
  			$table = $_SESSION['db_tabprefix']."Users";
@@ -467,7 +470,7 @@
  			$table = $_SESSION['db_tabprefix']."DJ";
  			if (!CheckDBTable($table, "CREATE TABLE IF NOT EXISTS `".$table."` (`ID` int( 11 ) NOT NULL AUTO_INCREMENT, `Status` TINYINT DEFAULT 0, `IsCurDJ` TINYINT DEFAULT 0, `Created` int( 11 ) NOT NULL DEFAULT 0, `TimeStamp` int( 11 ) NOT NULL DEFAULT 0, `Username` VARCHAR(255) NOT NULL DEFAULT '', `DispName` VARCHAR(255) NOT NULL DEFAULT '', `Email` VARCHAR(255) NOT NULL DEFAULT '', `Profile` TEXT, `Tagline` VARCHAR(255) DEFAULT '', `Picture` VARCHAR(255) DEFAULT '', `PublicPlaylist` TINYINT DEFAULT 0, PRIMARY KEY ( `ID` ));")) { break; }
  			if (!CheckDBTableField($table, "IsCurDJ", "`IsCurDJ` TINYINT DEFAULT 0")) { break; }
- 			 			
+
  			print "Opening config.inc.php for write access: ";
  			$fp = @fopen("./config.inc.php", "wb");
  			if ($fp === FALSE) {
@@ -477,12 +480,12 @@
  			} else {
  				print "OK<br />";
  			}
- 			
+
  			print "Writing configuration...<br />\n";
 			fwrite($fp, "<?php\r\nif (!defined('CONFIG_INC_PHP')) {\r\n");
 			fwrite($fp, "\tdefine('CONFIG_INC_PHP','INCLUDED');\r\n");
 			fwrite($fp, "\tunset(\$config);\r\n\r\n");
-			
+
 			ksort($_SESSION);
 			foreach($_SESSION as $key => $val) {
 				if (is_array($val)) {
@@ -518,13 +521,13 @@
 					}
 				}
 			}
-			
-			fwrite($fp, "\r\n}// !defined()\r\n?>"); 			 			
+
+			fwrite($fp, "\r\n}// !defined()\r\n?>");
  			print "Closing config.inc.php<br />";
  			print "All done, after you delete install.php you should be <a href=\"index.php\">ready to go!</a>";
 			break;
 	}
-	
+
 	print "</body>\n</html>";
 	//print "Now you can continue on to <a href=\"index.php\">index.php</a>";
 ?>
